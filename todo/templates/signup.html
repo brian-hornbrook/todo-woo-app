@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<h3>{{ errors }}</h3>
+
+<!-- form -->
+<div id="content">
+    <div class="card border-success mb-3" style="max-width: rem;">
+        <div class="card-header">
+            <h3>Create a User</h3>
+        </div>
+
+        <div class="card-body">
+            <p id="error-message" class="text-danger">{{ errors }}</p>
+            <form action="/signup" method="POST">
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Sign Up</button>
+                {% csrf_token %}
+            </form>
+        </div>
+
+
+
+    </div>
+</div>
+
+{% endblock %}

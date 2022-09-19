@@ -1,0 +1,13 @@
+/*** CONTENT ***/
+#content {
+    display: flex;
+    justify-content: center;
+}
+
+.card-header h3 {
+    text-align: center;
+}
+
+#error-message {
+    text-align: center;
+}
