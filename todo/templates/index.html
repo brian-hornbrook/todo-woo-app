@@ -25,12 +25,28 @@
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+
+                    <!-- if user is logged in -->
+                    {% if user.is_authenticated %}
+                    <p>Logged In as {{ user.username }}</p>
+                    <li class="nav-item">
+                        <form action="/logout" method="POST">
+                            <button type="submit">logout</button>
+                            {% csrf_token %}
+                        </form>
+                    </li>
+
+                    <!-- if user is not logged in -->
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="/signup" method="GET">Sign Up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Login</a>
+                        <a class="nav-link" href="/login" method="GET">Login</a>
                     </li>
+                    {% endif %}
+
+
                 </ul>
             </div>
         </div>
