@@ -4,8 +4,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TodoForm
+from .models import Todo
 
 ##### USER #####
+
+
 def signupuser(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {'form': UserCreationForm()})
@@ -15,13 +18,13 @@ def signupuser(request):
                 user = User.objects.create_user(
                     request.POST['username'], password=request.POST['password1'])
                 user.save()
-                login(user)
+                login(request, user)
                 return render(request, 'todos.html')
             except IntegrityError:
                 print("already exists")
                 return render(request, 'signup.html',
-                {'form': UserCreationForm(),
-                'errors': "that username or password was already taken"})
+                              {'form': UserCreationForm(),
+                               'errors': "that username or password was already taken"})
         else:
             return render(request, 'signup.html', {'form': UserCreationForm(), 'errors': "that username or password was alredy taken"})
 
@@ -29,25 +32,29 @@ def signupuser(request):
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
-        return redirect('/signup')
+        return redirect('/login')
     else:
         return render(request, "todos.html")
+
 
 def loginuser(request):
     if request.method == 'GET':
         return render(request, 'login.html', {"form": AuthenticationForm()})
     else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        user = authenticate(
+            request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
             return render(request, 'login.html', {"form": AuthenticationForm(), "errors": "username and password is incorrect"})
         else:
             login(request, user)
-            return render(request, 'todos.html')
+            return redirect('/')
 
 
 ##### Todos #####
 def todos(request):
-    return render(request, 'todos.html')
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+    # todos = Todo.objects.all()
+    return render(request, 'todos.html', {'todos': todos})
 
 
 def createtodo(request):

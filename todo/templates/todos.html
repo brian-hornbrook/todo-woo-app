@@ -7,27 +7,17 @@
     <a href="/createtodo"><button type="button" class="btn btn-primary">Add a Todo</button></a>
 </div>
 
-<div id="content">
-    <div class="card border-success mb-3" style="max-width: rem;">
-        <div class="card-header">
-            <h3>{{ user.username }}'s Todos</h3>
+<div id="content-area">
+{% for todo in todos %}
+    <div id="content">
+        <div class="card border-success mb-3" >
+                <p>{{ todo.title }}</p>
+                <p>{{ todo.memo }}</p>
+                <p>{{ todo.important }}</p>
+                <p>{{ todo.created }}</p>
         </div>
-
-        <div class="card-body">
-            <div class="card border-sucess">
-                <p>test</p>
-            </div>
-            <p id="error-message" class="text-danger">{{ errors }}</p>
-            <form action="/signup" method="POST">
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-success">Sign Up</button>
-                {% csrf_token %}
-            </form>
-        </div>
-
-
-
     </div>
+    {% endfor %}
 </div>
 {% endif %}
 

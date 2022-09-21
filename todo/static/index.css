@@ -1,11 +1,23 @@
 /*** CONTENT ***/
-#content {
+#content-area {
     display: flex;
     justify-content: center;
-    margin: 50px;
+    flex-flow: row;
+    flex-wrap: nowrap;
 }
 
-.card-header h3 {
+#content-area #content {
+    display: flex;
+    justify-content: center;
+    margin: 50px 5px;
+    width: 25%;
+}
+
+#content-area .border-success {
+    width: 100%;
+}
+
+#content-area p {
     text-align: center;
 }
 
@@ -27,8 +39,8 @@ form button {
 }
 
 
-/*** form ***/
-form {
+/*** account ***/
+#account-area {
     display: flex;
     justify-content: center;
 }
