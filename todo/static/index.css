@@ -2,6 +2,7 @@
 #content {
     display: flex;
     justify-content: center;
+    margin: 50px;
 }
 
 .card-header h3 {
@@ -10,4 +11,24 @@
 
 #error-message {
     text-align: center;
+}
+
+#title-area {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    margin: 20px;
+}
+
+#title-area #title,
+#title-area a,
+form button {
+    text-align: center;
+}
+
+
+/*** form ***/
+form {
+    display: flex;
+    justify-content: center;
 }

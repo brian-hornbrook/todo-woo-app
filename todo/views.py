@@ -3,11 +3,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from .forms import TodoForm
 
-
-def todos(request):
-    return render(request, 'todos.html')
-
+##### USER #####
 def signupuser(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {'form': UserCreationForm()})
@@ -27,6 +25,7 @@ def signupuser(request):
         else:
             return render(request, 'signup.html', {'form': UserCreationForm(), 'errors': "that username or password was alredy taken"})
 
+
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
@@ -44,3 +43,22 @@ def loginuser(request):
         else:
             login(request, user)
             return render(request, 'todos.html')
+
+
+##### Todos #####
+def todos(request):
+    return render(request, 'todos.html')
+
+
+def createtodo(request):
+    if request.method == 'GET':
+        return render(request, 'createtodo.html', {'form': TodoForm()})
+    else:
+        try:
+            form = TodoForm(request.POST)
+            newTodo = form.save(commit=False)
+            newTodo.user = request.user
+            newTodo.save()
+            return redirect('/')
+        except ValueError:
+            return render(request, 'createtodo.html', {'form': TodoForm(), 'errors': "bad data passed in"})
