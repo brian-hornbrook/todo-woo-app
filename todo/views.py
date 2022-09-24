@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TodoForm
 from .models import Todo
+from django.utils import timezone
 
 ##### USER #####
 
@@ -69,3 +70,33 @@ def createtodo(request):
             return redirect('/')
         except ValueError:
             return render(request, 'createtodo.html', {'form': TodoForm(), 'errors': "bad data passed in"})
+
+def updatetodo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'GET':
+        form = TodoForm(instance=todo)
+        return render(request, 'updatetodo.html', {'todo': todo, 'form': form})
+    else:
+        try:
+            form = TodoForm(request.POST, instance=todo)
+            form.save()
+            return redirect('/')
+        except ValueError:
+            return render(request, 'updatetodo.html', {'todo': todo, 'form': form, 'error': "bad info"})
+
+def completetodo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.datecompleted = timezone.now()
+        todo.save()
+        return redirect('/')
+
+def deletetodo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('/')
+
+def completedtodos(request):
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=False)
+    return render(request, 'todos.html', {'todos': todos})

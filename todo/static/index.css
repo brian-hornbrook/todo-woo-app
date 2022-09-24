@@ -1,3 +1,22 @@
+/*** TITLE ***/
+#title-area {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    margin: 20px;
+}
+
+#title-area h1,
+#title-area a,
+#title-area button {
+    text-align: center;
+}
+
+#error-message {
+    text-align: center;
+}
+
+
 /*** CONTENT ***/
 #content-area {
     display: flex;
@@ -15,27 +34,16 @@
 
 #content-area .border-success {
     width: 100%;
+    padding: 10px;
 }
 
 #content-area p {
     text-align: center;
 }
 
-#error-message {
-    text-align: center;
-}
-
-#title-area {
+#content-area .card div {
     display: flex;
     justify-content: center;
-    flex-flow: column;
-    margin: 20px;
-}
-
-#title-area #title,
-#title-area a,
-form button {
-    text-align: center;
 }
 
 
