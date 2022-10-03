@@ -53,9 +53,16 @@ def loginuser(request):
 
 ##### Todos #####
 def todos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+    user = request.user
+    try:
+        todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+        print(f'*** user = {user} ***')
+        return render(request, 'todos.html', {'todos': todos})
+    except:
+        print(f"couldn't handle it")
+        return render(request, 'todos.html')
     # todos = Todo.objects.all()
-    return render(request, 'todos.html', {'todos': todos})
+
 
 
 def createtodo(request):
